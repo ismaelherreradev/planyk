@@ -33,6 +33,8 @@ export const lists = createTable(
   }),
 );
 
+export type SelectList = typeof lists.$inferSelect;
+
 export const tasks = createTable(
   "task",
   {
@@ -40,10 +42,8 @@ export const tasks = createTable(
     listId: integer("list_id")
       .notNull()
       .references(() => lists.id),
-    description: text("description").notNull(),
+    title: text("description").notNull(),
     status: text("entity_type").$type<Status>().notNull(),
-    startHour: int("start_hour", { mode: "timestamp" }).notNull(),
-    endHour: int("end_hour", { mode: "timestamp" }).notNull(),
     dateTime: text("date_time").notNull(),
     createdAt: int("created_at", { mode: "timestamp" })
       .default(sql`(unixepoch())`)

@@ -15,6 +15,13 @@
       "when": 1723595611289,
       "tag": "0001_workable_major_mapleleaf",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1723664253060,
+      "tag": "0002_nosy_hellfire_club",
+      "breakpoints": true
     }
   ]
 }

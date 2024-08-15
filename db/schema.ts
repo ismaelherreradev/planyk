@@ -55,6 +55,8 @@ export const tasks = createTable(
   }),
 );
 
+export type SelectTask = typeof tasks.$inferSelect;
+
 export const listsRelations = relations(lists, ({ many }) => ({
   tasks: many(tasks),
 }));

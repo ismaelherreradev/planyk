@@ -7,4 +7,5 @@ export const Paths = {
   LandingPage: "/",
   SignInPage: "/sign-in",
   SignUpPage: "/sign-up",
+  ListsPage: "/lists",
 } as const;

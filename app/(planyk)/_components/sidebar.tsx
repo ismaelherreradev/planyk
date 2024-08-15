@@ -1,10 +1,18 @@
+import { memo } from "react";
 import Link from "next/link";
 import { SiteConfig } from "@/config/site";
+import { ListsWithTasks } from "@/types";
 
 import CreateList from "./create-list";
 import Nav from "./nav";
 
-export default async function SideBar() {
+type ListsProps = {
+  lists: ListsWithTasks[];
+};
+
+const MemoizedNav = memo(Nav);
+
+export default function SideBar({ lists }: ListsProps) {
   return (
     <div className="hidden border-r bg-muted/40 md:block">
       <div className="flex h-full max-h-screen flex-col gap-2">
@@ -14,7 +22,7 @@ export default async function SideBar() {
           </Link>
         </div>
         <div className="flex-1">
-          <Nav />
+          <MemoizedNav lists={lists} />
         </div>
         <div className="mt-auto p-4">
           <CreateList />

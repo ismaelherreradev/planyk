@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/db";
 import { lists, tasks, type Status } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { createServerActionProcedure } from "zsa";
 
@@ -39,7 +40,7 @@ export const createList = authedProcedure
         title: lists.title,
       });
 
-    revalidatePath("/dashboard");
+    revalidatePath("/lists");
     return list;
   });
 
@@ -53,8 +54,6 @@ export const createTask = authedProcedure
     }),
   )
   .handler(async ({ input }) => {
-    console.log(input);
-
     const { listId, title, dateTime } = input;
     const task = await db.insert(tasks).values({
       listId: Number(listId),
@@ -63,6 +62,26 @@ export const createTask = authedProcedure
       dateTime: new Date(dateTime).toISOString(),
     });
 
-    revalidatePath("/dashboard");
+    revalidatePath("/lists");
     return task;
+  });
+
+export const updateStateTask = authedProcedure
+  .createServerAction()
+  .input(
+    z.object({
+      id: z.number(),
+      status: z.string(),
+    }),
+  )
+  .handler(async ({ input }) => {
+    const { id, status } = input;
+    await db
+      .update(tasks)
+      .set({
+        status: status as Status,
+      })
+      .where(eq(tasks.id, id));
+
+    revalidatePath("/lists");
   });

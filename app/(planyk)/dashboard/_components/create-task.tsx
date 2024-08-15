@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState, type ElementRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -17,10 +17,11 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import { Plus } from "lucide-react";
 import { useServerAction } from "zsa-react";
 
-import { createTask } from "../_actions";
+import { createTask } from "../../_actions";
 
 export default function CreateTask({ lists }: { lists: SelectList[] }) {
   const { isPending, execute, isSuccess, data, isError, error } = useServerAction(createTask);
+  const closeRef = useRef<ElementRef<"button">>(null);
 
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [title, setTitle] = useState("");
@@ -29,7 +30,7 @@ export default function CreateTask({ lists }: { lists: SelectList[] }) {
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
+      <PopoverTrigger ref={closeRef} asChild>
         <Button size={"lg"} className="rounded-3xl border-none">
           <Plus size={14} className="mr-1" /> Cleate a new task
         </Button>
@@ -43,6 +44,7 @@ export default function CreateTask({ lists }: { lists: SelectList[] }) {
 
             setTitle("");
             setSelectedlist("");
+            closeRef.current?.click();
           }}
           className="flex-col flex space-y-4  items-center"
         >

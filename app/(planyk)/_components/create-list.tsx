@@ -10,8 +10,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ReloadIcon } from "@radix-ui/react-icons";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { Plus } from "lucide-react";
 import { useServerAction } from "zsa-react";
@@ -25,7 +23,7 @@ export default function CreateList() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size={"lg"} className="rounded-3xl border-none">
+        <Button size={"lg"} className="rounded-3xl w-full border-none">
           <Plus size={14} className="mr-3 inle" /> Cleate a new list
         </Button>
       </DialogTrigger>

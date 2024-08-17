@@ -3,7 +3,7 @@
 import { updateStateTask } from "@/app/(planyk)/_actions";
 import { Checkbox } from "@/components/ui/checkbox";
 import { statusEnum, type SelectTask } from "@/db/schema";
-import { format } from "date-fns";
+import { formatDateToLocal } from "@/lib/utils";
 import { CalendarClockIcon } from "lucide-react";
 import { useServerAction } from "zsa-react";
 
@@ -28,7 +28,7 @@ export default function TaskItem({ task }: { task: SelectTask }) {
       <span className="ml-10">{task.status}</span>
       <div className="ml-auto flex items-center space-x-2 text-xs bg-muted/50 rounded-lg py-2 px-3">
         <CalendarClockIcon size={14} />
-        <span>{format(task.dateTime, "PP")}</span>
+        <span>{formatDateToLocal(task.dateTime)}</span>
       </div>
     </li>
   );

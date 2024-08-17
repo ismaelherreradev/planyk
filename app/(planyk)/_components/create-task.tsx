@@ -17,7 +17,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import { Plus } from "lucide-react";
 import { useServerAction } from "zsa-react";
 
-import { createTask } from "../../_actions";
+import { createTask } from "../_actions";
 
 export default function CreateTask({ lists }: { lists: SelectList[] }) {
   const { isPending, execute, isSuccess, data, isError, error } = useServerAction(createTask);

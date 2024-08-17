@@ -1,9 +1,9 @@
 import { memo } from "react";
 import Link from "next/link";
+import CreateList from "@/components/create-list";
 import { SiteConfig } from "@/config/site";
 import { ListsWithTasks } from "@/types";
 
-import CreateList from "./create-list";
 import Nav from "./nav";
 
 type ListsProps = {

@@ -25,7 +25,6 @@ export default function TaskItem({ task }: { task: SelectTask }) {
         className="mr-2"
       />
       <span>{task.title}</span>
-      <span className="ml-10">{task.status}</span>
       <div className="ml-auto flex items-center space-x-2 text-xs bg-muted/50 rounded-lg py-2 px-3">
         <CalendarClockIcon size={14} />
         <span>{formatDateToLocal(task.dateTime)}</span>
@@ -33,17 +32,3 @@ export default function TaskItem({ task }: { task: SelectTask }) {
     </li>
   );
 }
-
-// <div className="ml-2">
-//   <DropdownMenu>
-//     <DropdownMenuTrigger asChild>
-//       <Button size={"icon"} variant={"ghost"}>
-//         <EllipsisVertical size={14} />
-//       </Button>
-//     </DropdownMenuTrigger>
-//     <DropdownMenuContent>
-//       <DropdownMenuItem>Edit</DropdownMenuItem>
-//       <DropdownMenuItem>Delete</DropdownMenuItem>
-//     </DropdownMenuContent>
-//   </DropdownMenu>
-// </div>

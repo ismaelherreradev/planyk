@@ -18,11 +18,21 @@ export const statusEnum = {
 
 export type Status = (typeof statusEnum)[keyof typeof statusEnum];
 
+export const listTypesEnum = {
+  COLOR: "color",
+  EMOJI: "emoji",
+} as const;
+
+export type ListType = (typeof listTypesEnum)[keyof typeof listTypesEnum];
+
 export const lists = createTable(
   "list",
   {
     id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
     title: text("title").notNull(),
+    listType: text("task_type").$type<ListType>().notNull(),
+    color: text("color").notNull(),
+    emoji: text("emoji").notNull(),
     createdAt: int("created_at", { mode: "timestamp" })
       .default(sql`(unixepoch())`)
       .notNull(),

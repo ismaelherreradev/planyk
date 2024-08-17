@@ -1,8 +1,7 @@
-import type { ComponentProps } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export const taskColors = {
+export const listColors = {
   red: "bg-red-500",
   orange: "bg-orange-500",
   yellow: "bg-yellow-500",
@@ -13,19 +12,20 @@ export const taskColors = {
   purple: "bg-purple-500",
 } as const;
 
-export type TaskColor = keyof typeof taskColors;
+export type ListColor = keyof typeof listColors;
 
 export type ColorButtonProps = {
-  colorKey: TaskColor;
+  colorKey: ListColor;
   colorValue: string;
   isSelected: boolean;
-} & ComponentProps<"button">;
+  onClick: (color: ListColor) => void;
+};
 
 export function ColorButton({ colorKey, colorValue, isSelected, onClick }: ColorButtonProps) {
   return (
     <Button
       key={colorKey}
-      onClick={onClick}
+      onClick={() => onClick(colorKey)}
       className={cn(
         "h-5 w-5 p-0 rounded-full",
         `hover:${colorValue}`,

@@ -22,6 +22,27 @@
       "when": 1723664253060,
       "tag": "0002_nosy_hellfire_club",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1723926954424,
+      "tag": "0003_lazy_mandroid",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1723927439604,
+      "tag": "0004_flat_retro_girl",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1723927639419,
+      "tag": "0005_vengeful_gladiator",
+      "breakpoints": true
     }
   ]
 }

@@ -1,13 +1,13 @@
 import { db } from "@/db";
 
-import CreateTask from "./create-task";
+import CreateTaskForm from "./create-task-form";
 
-export default async function Lists() {
+export default async function CreateTask() {
   const lists = await db.query.lists.findMany();
 
   return (
     <div className="flex justify-center">
-      <CreateTask lists={lists} />
+      <CreateTaskForm lists={lists} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { db } from "@/db";
 import { lists, listTypesEnum, statusEnum, tasks, type Status } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
@@ -43,7 +44,19 @@ export const createList = authedProcedure
       .returning();
 
     revalidatePath("/lists");
-    return list;
+  });
+
+export const deleteList = authedProcedure
+  .createServerAction()
+  .input(z.number())
+  .handler(async ({ input }) => {
+    const id = input;
+
+    await db.delete(tasks).where(eq(tasks.listId, id));
+    await db.delete(lists).where(eq(lists.id, id));
+
+    revalidatePath("/lists");
+    redirect("/lists");
   });
 
 export const createTask = authedProcedure
@@ -65,7 +78,6 @@ export const createTask = authedProcedure
     });
 
     revalidatePath("/lists");
-    return task;
   });
 
 export const updateStateTask = authedProcedure

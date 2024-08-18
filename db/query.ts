@@ -3,6 +3,7 @@
 import { currentUser } from "@clerk/nextjs/server";
 
 import { db } from ".";
+import type { Status } from "./schema";
 
 async function getUser() {
   const user = await currentUser();
@@ -32,11 +33,11 @@ export async function getLists() {
   });
 }
 
-export async function getTaskById(id: number) {
+export async function getTaskById(id: number, status = "noted") {
   const user = await getUser();
   if (!user) return null;
 
   return await db.query.tasks.findMany({
-    where: (tasks, { eq, and }) => and(eq(tasks.listId, id), eq(tasks.status, "noted")),
+    where: (tasks, { eq, and }) => and(eq(tasks.listId, id), eq(tasks.status, status as Status)),
   });
 }

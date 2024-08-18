@@ -1,0 +1,1 @@
+CREATE INDEX `list_id_idx` ON `planyk_task` (`list_id`);

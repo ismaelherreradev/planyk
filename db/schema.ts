@@ -49,7 +49,7 @@ export type SelectList = typeof lists.$inferSelect;
 export const tasks = createTable(
   "task",
   {
-    id: integer("id").primaryKey({ autoIncrement: true }),
+    id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
     listId: integer("list_id")
       .notNull()
       .references(() => lists.id),

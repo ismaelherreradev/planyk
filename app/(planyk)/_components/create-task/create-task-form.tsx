@@ -63,8 +63,8 @@ export default function CreateTaskForm({ lists }: CreateTaskFormProps) {
   return (
     <Popover>
       <PopoverTrigger ref={closeRef} asChild>
-        <Button size={"lg"} className="rounded-3xl border-none">
-          <Plus size={14} className="mr-1" /> Create a new task
+        <Button size={"sm"} className="rounded-xl border-none">
+          <Plus size={14} className="mr-1" /> Add new task
         </Button>
       </PopoverTrigger>
       <PopoverContent>

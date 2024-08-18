@@ -1,0 +1,1 @@
+DROP INDEX IF EXISTS `list_id_idx`;

@@ -10,8 +10,6 @@ type ListsProps = {
   lists: ListsWithTasks[];
 };
 
-const MemoizedNav = memo(Nav);
-
 export default function SideBar({ lists }: ListsProps) {
   return (
     <div className="hidden border-r bg-muted/40 md:block">
@@ -22,7 +20,7 @@ export default function SideBar({ lists }: ListsProps) {
           </Link>
         </div>
         <div className="flex-1">
-          <MemoizedNav lists={lists} />
+          <Nav lists={lists} />
         </div>
         <div className="mt-auto p-4">
           <CreateList />

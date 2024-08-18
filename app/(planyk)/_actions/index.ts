@@ -22,18 +22,19 @@ export const createList = authedProcedure
   .createServerAction()
   .input(
     z.object({
-      title: z.string().min(3),
+      title: z.string().min(3, { message: "Title must be at least 3 characters long." }),
       color: z.string().min(1),
       emoji: z.string().min(1),
       listType: z.nativeEnum(listTypesEnum),
     }),
   )
-  .handler(async ({ input }) => {
+  .handler(async ({ ctx, input }) => {
     const { title, color, emoji, listType } = input;
 
     const [list] = await db
       .insert(lists)
       .values({
+        userId: ctx.id,
         title,
         listType,
         color,
@@ -49,8 +50,8 @@ export const createTask = authedProcedure
   .createServerAction()
   .input(
     z.object({
-      listId: z.string().min(1),
-      title: z.string().min(3),
+      listId: z.string().min(1, { message: "A list is required." }),
+      title: z.string().min(3, { message: "Title must be at least 3 characters long." }),
       dateTime: z.date(),
     }),
   )

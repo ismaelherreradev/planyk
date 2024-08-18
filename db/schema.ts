@@ -29,6 +29,7 @@ export const lists = createTable(
   "list",
   {
     id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+    userId: text("user_id").notNull(),
     title: text("title").notNull(),
     listType: text("task_type").$type<ListType>().notNull(),
     color: text("color").notNull(),

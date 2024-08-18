@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { SelectList } from "@/db/schema";
+import { cn } from "@/lib/utils";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { Plus } from "lucide-react";
 import { useServerAction } from "zsa-react";
@@ -19,7 +20,7 @@ type CreateTaskFormProps = {
 };
 
 export default function CreateTaskForm({ lists }: CreateTaskFormProps) {
-  const { isPending, execute } = useServerAction(createTask);
+  const { isPending, execute, isError, error } = useServerAction(createTask);
   const closeRef = useRef<ElementRef<"button">>(null);
 
   const [formState, setFormState] = useState<{
@@ -51,6 +52,10 @@ export default function CreateTaskForm({ lists }: CreateTaskFormProps) {
       dateTime: formState.date,
     });
 
+    if (isError) {
+      return;
+    }
+
     setFormState({ date: new Date(), title: "", selectedList: "" });
     closeRef.current?.click();
   }
@@ -64,23 +69,30 @@ export default function CreateTaskForm({ lists }: CreateTaskFormProps) {
       </PopoverTrigger>
       <PopoverContent>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-4 items-center">
-          <Input
-            id="title"
-            name="title"
-            value={formState.title}
-            onChange={handleChange}
-            placeholder="Create new task"
-          />
-          <Select onValueChange={(value) => setFormState({ ...formState, selectedList: value })}>
-            <SelectTrigger>
-              <SelectValue placeholder="No lists" />
-            </SelectTrigger>
-            <SelectContent>
-              {lists.map((list) => (
-                <ListItem key={list.id} list={list} />
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="w-full">
+            <Input
+              id="title"
+              name="title"
+              value={formState.title}
+              onChange={handleChange}
+              placeholder="Create new task"
+              className={cn(error?.fieldErrors?.title && "border-red-500")}
+            />
+            {isError && <span className="text-red-500 text-xs">{error.fieldErrors?.title}</span>}
+          </div>
+          <div className="w-full">
+            <Select onValueChange={(value) => setFormState({ ...formState, selectedList: value })}>
+              <SelectTrigger>
+                <SelectValue placeholder="No lists" />
+              </SelectTrigger>
+              <SelectContent>
+                {lists.map((list) => (
+                  <ListItem key={list.id} list={list} />
+                ))}
+              </SelectContent>
+            </Select>
+            {isError && <span className="text-red-500 text-xs">{error.fieldErrors?.listId}</span>}
+          </div>
           <Calendar mode="single" selected={formState.date} onSelect={handleDateChange} />
           <Button size={"sm"} type="submit" className="w-full">
             {isPending ? <ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> : "Create"}

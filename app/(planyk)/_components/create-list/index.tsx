@@ -8,6 +8,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ListType } from "@/db/schema";
 import { cn } from "@/lib/utils";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import type { EmojiClickData } from "emoji-picker-react";
 import { Plus } from "lucide-react";
 import { useServerAction } from "zsa-react";
@@ -25,7 +26,7 @@ export default function CreateListForm() {
   );
   const [listType, setListType] = useState<ListType>("color");
 
-  const { isPending, execute } = useServerAction(createList);
+  const { isPending, execute, isError, error } = useServerAction(createList);
 
   const handleColorClick = (color: ListColor) => setSelectedColor(color);
   const handleEmojiClick = (emoji: EmojiClickData) => setEmoji(emoji.imageUrl);
@@ -69,12 +70,18 @@ export default function CreateListForm() {
                 )}
               />
             )}
-            <Input
-              placeholder="Task name"
-              className="w-full pl-9 rounded-xl border-none bg-gray-100"
-              value={listName}
-              onChange={(e) => setListName(e.target.value)}
-            />
+            <div className="w-full">
+              <Input
+                placeholder="Task name"
+                className={cn(
+                  error?.fieldErrors?.title && "border-red-500",
+                  "w-full pl-9 rounded-xl border-none bg-gray-100",
+                )}
+                value={listName}
+                onChange={(e) => setListName(e.target.value)}
+              />
+              {isError && <span className="text-red-500 text-xs">{error.fieldErrors?.title}</span>}
+            </div>
           </div>
           <Tabs
             defaultValue="color"
@@ -102,20 +109,22 @@ export default function CreateListForm() {
           className="rounded-xl w-full mt-4 border-none"
           disabled={isPending}
           onClick={async () => {
-            try {
-              await execute({
-                title: listName,
-                color: selectedColor,
-                emoji,
-                listType,
-              });
-            } finally {
-              resetForm();
-              setIsOpen(false);
+            await execute({
+              title: listName,
+              color: selectedColor,
+              emoji,
+              listType,
+            });
+
+            if (isError) {
+              return;
             }
+
+            resetForm();
+            setIsOpen(false);
           }}
         >
-          Create task
+          {isPending ? <ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> : "Create"}
         </Button>
       </PopoverContent>
     </Popover>

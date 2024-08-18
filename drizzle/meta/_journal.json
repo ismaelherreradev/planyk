@@ -43,6 +43,13 @@
       "when": 1723927639419,
       "tag": "0005_vengeful_gladiator",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1723939978697,
+      "tag": "0006_wealthy_mindworm",
+      "breakpoints": true
     }
   ]
 }

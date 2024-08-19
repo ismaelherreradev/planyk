@@ -15,8 +15,20 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: SiteConfig.title,
+  title: {
+    default: SiteConfig.title,
+    template: "%s | " + SiteConfig.title,
+  },
   description: SiteConfig.description,
+  icons: [
+    {
+      url: "/planyk.svg",
+      href: "/planyk.svg",
+    },
+  ],
+  openGraph: {
+    images: ["/planyk.png"],
+  },
 };
 
 export default function RootLayout({
@@ -29,7 +41,7 @@ export default function RootLayout({
       <body className={cn("min-h-svh bg-background font-sans antialiased", fontSans.variable)}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >

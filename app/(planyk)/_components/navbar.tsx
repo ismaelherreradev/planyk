@@ -35,7 +35,7 @@ export default function Navbar({ lists }: CreateTaskFormProps) {
     (value: string) => {
       localStorage.setItem("selectedList", value);
       setSelectedValue(value);
-      router.push(`${Paths.ListsPage}/${value}`);
+      router.replace(`${Paths.ListsPage}/${value}`);
     },
     [router],
   );

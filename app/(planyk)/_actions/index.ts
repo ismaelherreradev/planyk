@@ -48,6 +48,8 @@ export const createList = authedProcedure
       .returning();
 
     revalidatePath("/lists");
+    redirect(`/lists/${list.id}`);
+    return list.id;
   });
 
 export const deleteList = authedProcedure
@@ -59,7 +61,7 @@ export const deleteList = authedProcedure
     await db.delete(tasks).where(eq(tasks.listId, id));
     await db.delete(lists).where(eq(lists.id, id));
 
-    revalidatePath("/lists");
+    revalidatePath(`/lists/${id}`);
     redirect("/lists");
   });
 
@@ -74,14 +76,17 @@ export const createTask = authedProcedure
   )
   .handler(async ({ input }) => {
     const { listId, title, dateTime } = input;
-    const task = await db.insert(tasks).values({
-      listId: Number(listId),
-      title,
-      status: "pending" as Status,
-      dateTime: new Date(dateTime).toISOString(),
-    });
+    const [task] = await db
+      .insert(tasks)
+      .values({
+        listId: Number(listId),
+        title,
+        status: "pending" as Status,
+        dateTime: new Date(dateTime).toISOString(),
+      })
+      .returning();
 
-    revalidatePath("/lists");
+    revalidatePath(`/lists/${task.id}`);
   });
 
 export const updateStateTask = authedProcedure
@@ -101,5 +106,5 @@ export const updateStateTask = authedProcedure
       })
       .where(eq(tasks.id, id));
 
-    revalidatePath("/lists");
+    revalidatePath(`/lists/${id}`);
   });

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Image from "next/image";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -27,29 +27,19 @@ export default function CreateListForm() {
   const [emoji, setEmoji] = useState(DEFAULT_EMOJI);
   const [listType, setListType] = useState<ListType>("color");
 
-  const { isPending, execute, isError, error } = useServerAction(createList);
+  const { isPending, execute, isError, error, data } = useServerAction(createList);
 
-  const handleColorClick = (color: ListColor) => setSelectedColor(color);
-  const handleEmojiClick = (emoji: EmojiClickData) => setEmoji(emoji.imageUrl);
+  const handleColorClick = useCallback((color: ListColor) => setSelectedColor(color), []);
+  const handleEmojiClick = useCallback((emoji: EmojiClickData) => setEmoji(emoji.imageUrl), []);
 
-  const colorButtons = Object.entries(listColors).map(([colorKey, colorValue]) => (
-    <ColorButton
-      key={colorKey}
-      colorKey={colorKey as ListColor}
-      colorValue={colorValue}
-      isSelected={selectedColor === colorKey}
-      onClick={handleColorClick}
-    />
-  ));
-
-  function resetForm() {
+  const resetForm = useCallback(() => {
     setSelectedColor("red");
     setListName("");
     setEmoji(DEFAULT_EMOJI);
     setListType("color");
-  }
+  }, []);
 
-  async function handleSubmit() {
+  const handleSubmit = useCallback(async () => {
     await execute({
       title: listName,
       color: selectedColor,
@@ -61,12 +51,27 @@ export default function CreateListForm() {
 
     resetForm();
     setIsOpen(false);
-  }
+    location.reload();
+  }, [execute, listName, selectedColor, emoji, listType, isError, resetForm]);
+
+  const colorButtons = useMemo(
+    () =>
+      Object.entries(listColors).map(([colorKey, colorValue]) => (
+        <ColorButton
+          key={colorKey}
+          colorKey={colorKey as ListColor}
+          colorValue={colorValue}
+          isSelected={selectedColor === colorKey}
+          onClick={handleColorClick}
+        />
+      )),
+    [selectedColor, handleColorClick],
+  );
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <Plus className="bg-foreground text-white rounded-full p-2" size={40} />
+        <Plus className="bg-foreground text-white dark:text-black rounded-full p-2" size={40} />
       </PopoverTrigger>
       <PopoverContent side={"bottom"} className="w-[300px] p-3 mb-16">
         <div className="space-y-4">

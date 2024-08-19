@@ -93,7 +93,7 @@ export default function CreateListForm() {
                 placeholder={PLACEHOLDER_TEXT}
                 className={cn(
                   error?.fieldErrors?.title && "border-red-500",
-                  "w-full pl-9 rounded-xl border-none bg-gray-100",
+                  "w-full pl-9 rounded-xl border-none",
                 )}
                 value={listName}
                 onChange={(e) => setListName(e.target.value)}

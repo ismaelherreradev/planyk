@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { ListType } from "@/db/schema";
 import { cn } from "@/lib/utils";
 import { ReloadIcon } from "@radix-ui/react-icons";
@@ -67,26 +66,9 @@ export default function CreateListForm() {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <TooltipProvider>
-          <Tooltip delayDuration={200}>
-            <TooltipTrigger asChild>
-              <Button size={"icon"} className="rounded-3xl">
-                <Plus size={20} />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent
-              className="mr-10 rounded-3xl"
-              side={"bottom"}
-              align={"center"}
-              alignOffset={100}
-              avoidCollisions={false}
-            >
-              <p>Create a new list</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Plus className="bg-foreground text-white rounded-full p-2" size={40} />
       </PopoverTrigger>
-      <PopoverContent side="right" className="w-[300px] p-3 mb-16">
+      <PopoverContent side={"bottom"} className="w-[300px] p-3 mb-16">
         <div className="space-y-4">
           <div className="relative w-full">
             {listType === "emoji" ? (

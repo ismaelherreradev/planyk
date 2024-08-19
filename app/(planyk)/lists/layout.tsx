@@ -11,7 +11,7 @@ export default async function ListLayout({ children }: { children: React.ReactNo
   }));
 
   return (
-    <main className="container">
+    <main className="min-h-svh container">
       <Navbar lists={lists!} />
 
       {children}

@@ -1,6 +1,6 @@
 export const SiteConfig = {
   title: "Planyk",
-  description: "Simplify task management, boost collaboration, and achieve more together",
+  description: "Simplify todo management with Planyk.",
 } as const;
 
 export const Paths = {

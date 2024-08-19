@@ -11,7 +11,7 @@ import {
 export const createTable = sqliteTableCreator((name) => `planyk_${name}`);
 
 export const statusEnum = {
-  NOTED: "noted",
+  PENDING: "pending",
   DELETED: "deleted",
   FINISHED: "finished",
 } as const;
@@ -54,7 +54,7 @@ export const tasks = createTable(
       .notNull()
       .references(() => lists.id),
     title: text("description").notNull(),
-    status: text("entity_type").$type<Status>().notNull(),
+    status: text("entity_type").$type<Status>().notNull().default("pending"),
     dateTime: text("date_time").notNull(),
     createdAt: int("created_at", { mode: "timestamp" })
       .default(sql`(unixepoch())`)

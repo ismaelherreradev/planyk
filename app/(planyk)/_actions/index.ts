@@ -13,6 +13,10 @@ const authedProcedure = createServerActionProcedure().handler(async () => {
   try {
     const user = await currentUser();
 
+    if (!user) {
+      redirect("/sign-in");
+    }
+
     return user;
   } catch {
     throw new Error("User not authenticated");
@@ -73,7 +77,7 @@ export const createTask = authedProcedure
     const task = await db.insert(tasks).values({
       listId: Number(listId),
       title,
-      status: "noted" as Status,
+      status: "pending" as Status,
       dateTime: new Date(dateTime).toISOString(),
     });
 

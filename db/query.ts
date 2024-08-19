@@ -18,7 +18,7 @@ export async function getListsWithTasks() {
     where: (lists, { eq }) => eq(lists.userId, user.id),
     with: {
       tasks: {
-        where: (tasks, { eq }) => eq(tasks.status, "noted"),
+        where: (tasks, { eq }) => eq(tasks.status, "pending"),
       },
     },
   });
@@ -33,7 +33,7 @@ export async function getLists() {
   });
 }
 
-export async function getTaskById(id: number, status = "noted") {
+export async function getTaskById(id: number, status = "pending") {
   const user = await getUser();
   if (!user) return null;
 

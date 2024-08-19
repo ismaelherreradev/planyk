@@ -1,72 +1,58 @@
-import { useState } from "react";
-import Image from "next/image";
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
   SelectGroup,
-  SelectItem,
   SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SiteConfig } from "@/config/site";
+import { Paths, SiteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { ListsWithTasks } from "@/types";
+import type { CreateTaskFormProps } from "@/types";
 
-import CreateList from "./create-list";
-import { listColors, type ListColor } from "./create-list/color-button";
+import { CreateListButtonWithTooltip } from "./create-list/create-list-button";
 import { UserClerkButton } from "./navbar-items";
+import { MemoizedListItem } from "./select-list-items";
 
-type CreateTaskFormProps = {
-  lists: ListsWithTasks[];
-};
+export default function Navbar({ lists }: CreateTaskFormProps) {
+  const router = useRouter();
+  const [selectedValue, setSelectedValue] = useState("");
 
-type ListItemProps = {
-  list: ListsWithTasks["list"];
-  tasks: ListsWithTasks["tasks"];
-};
+  useEffect(() => {
+    const storedValue = localStorage.getItem("selectedList");
+    if (storedValue) {
+      setSelectedValue(storedValue);
+    }
+  }, []);
 
-function ListItem({ list, tasks }: ListItemProps) {
-  return (
-    <SelectItem key={list.id} value={String(list.id)}>
-      <div className="flex items-center space-x-2">
-        {list.listType === "color" ? (
-          <div
-            className={cn(
-              "h-5 w-5 rounded-full border-2 border-gray-500/50",
-              listColors[list.color as ListColor],
-            )}
-          />
-        ) : (
-          <Image src={list.emoji} width={20} height={20} priority alt={list.title} />
-        )}
-        <div className="flex items-center justify-between w-[100px] md:w-[200px]">
-          <span className="truncate">{list.title}</span>
-          <div className="flex items-center">
-            <Badge className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-              {tasks.length ?? 0}
-            </Badge>
-          </div>
-        </div>
-      </div>
-    </SelectItem>
+  const handleValueChange = useCallback(
+    (value: string) => {
+      localStorage.setItem("selectedList", value);
+      setSelectedValue(value);
+      router.push(`${Paths.ListsPage}/${value}`);
+    },
+    [router],
   );
-}
 
-function Navbar({ lists }: CreateTaskFormProps) {
   return (
-    <header className="sticky top-0 flex h-16 items-center gap-4 bg-background">
+    <header className="sticky top-0 flex h-28 items-center gap-4 bg-background">
       <nav className="flex w-full justify-between items-center">
         <div className="flex space-x-2 md:space-x-5 items-center">
-          <Link href="/" className="flex text-3xl items-center gap-2 font-bold">
-            <span className="">{SiteConfig.title}</span>
+          <Link
+            href={Paths.ListsPage}
+            className="flex text-5xl items-center gap-2 md:mr-5 font-bold"
+          >
+            <span>{SiteConfig.title}</span>
           </Link>
 
           <div className="flex space-x-1 items-center">
-            <Select>
+            <Select value={selectedValue} onValueChange={handleValueChange}>
               <SelectTrigger className="rounded-3xl w-[180px] md:w-[280px]">
                 <SelectValue placeholder="No lists" />
               </SelectTrigger>
@@ -74,13 +60,13 @@ function Navbar({ lists }: CreateTaskFormProps) {
                 <SelectGroup>
                   <SelectLabel>Lists</SelectLabel>
                   {lists.map(({ list, tasks }) => (
-                    <ListItem key={list.id} list={list} tasks={tasks} />
+                    <MemoizedListItem key={list.id} list={list} tasks={tasks} />
                   ))}
                 </SelectGroup>
               </SelectContent>
             </Select>
           </div>
-          <CreateList />
+          <CreateListButtonWithTooltip />
         </div>
         <div className="flex space-x-3">
           <UserClerkButton />
@@ -92,5 +78,3 @@ function Navbar({ lists }: CreateTaskFormProps) {
     </header>
   );
 }
-
-export default Navbar;

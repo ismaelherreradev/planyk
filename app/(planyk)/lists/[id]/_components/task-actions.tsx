@@ -15,7 +15,7 @@ import DeleteList from "./delete-lits";
 
 export default function TaskActions({ id }: { id: number }) {
   return (
-    <div className="flex justify-end items-center space-x-3 container my-6 px-28">
+    <div className="flex justify-end items-center space-x-3 container my-6">
       <div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -25,7 +25,7 @@ export default function TaskActions({ id }: { id: number }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem asChild>
-              <Link href={`${Paths.ListsPage}/${id}`}>Noted</Link>
+              <Link href={`${Paths.ListsPage}/${id}`}>Pending</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href={`${Paths.ListsPage}/${id}/finished`}>Finished</Link>

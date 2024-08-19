@@ -6,7 +6,7 @@ import { Navbar } from "./_components/navbar";
 export default async function LandingLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const user = await currentUser();
 
-  if (!user) {
+  if (user) {
     redirect("/lists");
   }
 

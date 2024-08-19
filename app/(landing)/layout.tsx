@@ -1,16 +1,15 @@
 // import { redirect } from "next/navigation";
-import { auth } from "@clerk/nextjs/server";
+// import { auth } from "@clerk/nextjs/server";
 
 // import { Paths } from "@/config/site";
 import { Navbar } from "./_components/navbar";
 
 export default function LandingLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const { userId } = auth();
+  // const { userId } = auth();
 
-  if (userId) {
-    // redirect(`${Paths.Organization}/${orgId}`);
-    console.log("hi");
-  }
+  // if (userId) {
+  //   return;
+  // }
 
   return (
     <div>

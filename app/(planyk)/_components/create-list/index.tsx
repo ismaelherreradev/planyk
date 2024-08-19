@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { ListType } from "@/db/schema";
 import { cn } from "@/lib/utils";
 import { ReloadIcon } from "@radix-ui/react-icons";
@@ -17,13 +18,14 @@ import { createList } from "../../_actions";
 import { ColorButton, listColors, type ListColor } from "./color-button";
 import { EmojiPicker } from "./emoji-picker";
 
+const DEFAULT_EMOJI = "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f603.png";
+const PLACEHOLDER_TEXT = "Task name";
+
 export default function CreateListForm() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedColor, setSelectedColor] = useState<ListColor>("red");
   const [listName, setListName] = useState("");
-  const [emoji, setEmoji] = useState(
-    "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f603.png",
-  );
+  const [emoji, setEmoji] = useState(DEFAULT_EMOJI);
   const [listType, setListType] = useState<ListType>("color");
 
   const { isPending, execute, isError, error } = useServerAction(createList);
@@ -44,16 +46,45 @@ export default function CreateListForm() {
   function resetForm() {
     setSelectedColor("red");
     setListName("");
-    setEmoji("1f60a");
+    setEmoji(DEFAULT_EMOJI);
     setListType("color");
+  }
+
+  async function handleSubmit() {
+    await execute({
+      title: listName,
+      color: selectedColor,
+      emoji,
+      listType,
+    });
+
+    if (isError) return;
+
+    resetForm();
+    setIsOpen(false);
   }
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <Button size="lg" className="rounded-3xl w-full border-none">
-          <Plus size={14} className="mr-1" /> Create a new list
-        </Button>
+        <TooltipProvider>
+          <Tooltip delayDuration={200}>
+            <TooltipTrigger asChild>
+              <Button size={"icon"} className="rounded-3xl">
+                <Plus size={20} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent
+              className="mr-10 rounded-3xl"
+              side={"bottom"}
+              align={"center"}
+              alignOffset={100}
+              avoidCollisions={false}
+            >
+              <p>Create a new list</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </PopoverTrigger>
       <PopoverContent side="right" className="w-[300px] p-3 mb-16">
         <div className="space-y-4">
@@ -72,7 +103,7 @@ export default function CreateListForm() {
             )}
             <div className="w-full">
               <Input
-                placeholder="Task name"
+                placeholder={PLACEHOLDER_TEXT}
                 className={cn(
                   error?.fieldErrors?.title && "border-red-500",
                   "w-full pl-9 rounded-xl border-none bg-gray-100",
@@ -108,21 +139,7 @@ export default function CreateListForm() {
           size="sm"
           className="rounded-xl w-full mt-4 border-none"
           disabled={isPending}
-          onClick={async () => {
-            await execute({
-              title: listName,
-              color: selectedColor,
-              emoji,
-              listType,
-            });
-
-            if (isError) {
-              return;
-            }
-
-            resetForm();
-            setIsOpen(false);
-          }}
+          onClick={handleSubmit}
         >
           {isPending ? <ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> : "Create"}
         </Button>

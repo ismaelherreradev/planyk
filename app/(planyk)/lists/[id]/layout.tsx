@@ -1,4 +1,3 @@
-import Navbar from "../../_components/navbar";
 import TaskActions from "./_components/task-actions";
 
 export default async function ListLayout({
@@ -10,7 +9,6 @@ export default async function ListLayout({
 }) {
   return (
     <main className="flex flex-1 flex-col">
-      <Navbar />
       <TaskActions id={params.id} />
       {children}
     </main>

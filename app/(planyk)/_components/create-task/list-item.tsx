@@ -11,7 +11,7 @@ type ListItemProps = {
 
 export default function ListItem({ list }: ListItemProps) {
   return (
-    <SelectItem key={list.id} value={list.id.toString()}>
+    <SelectItem key={list.id} value={String(list.id)}>
       <div className="flex items-center space-x-2">
         {list.listType === "color" ? (
           <div

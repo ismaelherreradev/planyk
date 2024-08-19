@@ -1,4 +1,3 @@
-import { memo } from "react";
 import Link from "next/link";
 import { SiteConfig } from "@/config/site";
 import { ListsWithTasks } from "@/types";

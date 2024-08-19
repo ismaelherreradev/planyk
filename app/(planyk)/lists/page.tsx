@@ -1,11 +1,7 @@
-import Navbar from "../_components/navbar";
-
-export default async function ListPage() {
+export default function PlanykPage() {
   return (
-    <>
-      <main className="flex flex-1 flex-col">
-        <Navbar />
-      </main>
-    </>
+    <div>
+      <h1>PlanykPage</h1>
+    </div>
   );
 }

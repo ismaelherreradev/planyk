@@ -4,8 +4,10 @@ import { type Config } from "drizzle-kit";
 export default {
   schema: "./db/schema.ts",
   dialect: "sqlite",
+  driver: "turso",
   dbCredentials: {
-    url: env.DATABASE_URL,
+    url: env.TURSO_DATABASE_URL,
+    authToken: env.TURSO_AUTH_TOKEN,
   },
   tablesFilter: ["planyk_*"],
 } satisfies Config;

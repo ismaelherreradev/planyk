@@ -4,7 +4,7 @@ import TaskItem from "./task-item";
 
 export default async function TasksContainer({ tasks }: { tasks: SelectTask[] }) {
   return (
-    <ul className="space-y-2 container">
+    <ul className="space-y-2">
       {tasks.map((task) => (
         <TaskItem key={task.id} task={task} />
       ))}

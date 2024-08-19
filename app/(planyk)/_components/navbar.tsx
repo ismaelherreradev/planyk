@@ -46,7 +46,7 @@ export default function Navbar({ lists }: CreateTaskFormProps) {
         <div className="flex space-x-2 md:space-x-5 items-center">
           <Link
             href={Paths.ListsPage}
-            className="flex text-5xl items-center gap-2 md:mr-5 font-bold"
+            className="hidden md:flex text-5xl  items-center gap-2 md:mr-5 font-bold"
           >
             <span>{SiteConfig.title}</span>
           </Link>

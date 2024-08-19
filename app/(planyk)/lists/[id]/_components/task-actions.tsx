@@ -15,7 +15,7 @@ import DeleteList from "./delete-lits";
 
 export default function TaskActions({ id }: { id: number }) {
   return (
-    <div className="flex justify-end items-center space-x-3 container my-6">
+    <div className="flex justify-end items-center space-x-3 my-6">
       <div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

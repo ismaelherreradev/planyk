@@ -13,7 +13,7 @@ import { EllipsisVertical } from "lucide-react";
 import { useServerAction } from "zsa-react";
 
 export default function TaskOptions({ id, status }: { id: number; status: Status }) {
-  const { isPending, execute } = useServerAction(updateStateTask);
+  const { execute } = useServerAction(updateStateTask);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

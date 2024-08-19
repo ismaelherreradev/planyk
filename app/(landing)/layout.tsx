@@ -1,6 +1,15 @@
+import { redirect } from "next/navigation";
+import { currentUser } from "@clerk/nextjs/server";
+
 import { Navbar } from "./_components/navbar";
 
-export default function LandingLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function LandingLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const user = await currentUser();
+
+  if (!user) {
+    redirect("/lists");
+  }
+
   return (
     <div>
       <Navbar />

@@ -1,12 +1,12 @@
-import { Suspense } from "react";
-import { getTaskById } from "@/db/query";
+import { Suspense } from 'react'
+import { getTasksByListIdAndStatus } from '@/db/query'
 
-import TasksContainer from "../_components/task-container";
-import TaskSkeleton from "../_components/task-skeleton";
+import TasksContainer from '../_components/task-container'
+import TaskSkeleton from '../_components/task-skeleton'
 
 export default async function DeletedTasks({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  const tasks = await getTaskById(Number(id), "deleted");
+  const { id } = await params
+  const tasks = await getTasksByListIdAndStatus(Number(id), 'deleted')
 
   return (
     <>
@@ -14,5 +14,5 @@ export default async function DeletedTasks({ params }: { params: Promise<{ id: s
         <TasksContainer tasks={tasks!} />
       </Suspense>
     </>
-  );
+  )
 }

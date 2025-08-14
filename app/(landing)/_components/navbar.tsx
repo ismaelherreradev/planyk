@@ -4,7 +4,7 @@ import { Paths, SiteConfig } from '@/config/site'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/theme-toggle'
 
-export async function Navbar() {
+export function Navbar() {
   return (
     <nav className='fixed inset-x-0 flex h-20'>
       <div className='container flex w-full items-center justify-between gap-4'>

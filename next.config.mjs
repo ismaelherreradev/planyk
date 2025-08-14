@@ -12,6 +12,7 @@ const nextConfig = {
   },
   experimental: {
     cssChunking: "strict",
+    reactCompiler: true,
   },
 };
 

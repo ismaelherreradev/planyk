@@ -42,23 +42,27 @@ const TasksContainer = memo(function TasksContainer({ tasks }: TasksContainerPro
   }, [tasks, filter])
 
   return (
-    <div className='space-y-6'>
+    <div className='space-y-4'>
       <div className='flex items-center justify-between'>
-        <div className='flex items-center gap-3'>
-          <h2 className='text-lg font-semibold'>Tasks</h2>
-          <Badge variant='secondary' className='rounded-md px-2 py-0.5 text-xs'>
+        <div className='flex items-center gap-2'>
+          <h2 className='text-xl font-bold tracking-tight'>Tasks</h2>
+          <Badge
+            variant='secondary'
+            className='bg-muted/50 text-muted-foreground hover:bg-muted/70 h-5 min-w-0 px-1.5 text-xs font-medium tabular-nums'
+          >
             {filteredTasks.length}
           </Badge>
         </div>
         <CreateTask />
       </div>
 
-      <div className='bg-muted/50 flex items-center gap-1 rounded-lg p-1'>
+      <div className='bg-muted/30 border-border/60 flex items-center gap-1 rounded-lg border p-1 backdrop-blur-sm'>
         <Button
           variant={filter === 'all' ? 'default' : 'ghost'}
           size='sm'
           onClick={() => setFilter('all')}
-          className='h-8 rounded-md px-3 text-sm'
+          className='h-7 rounded-md px-2.5 text-xs font-medium tabular-nums'
+          aria-label={`Show all tasks (${stats.total} total)`}
         >
           All ({stats.total})
         </Button>
@@ -66,33 +70,35 @@ const TasksContainer = memo(function TasksContainer({ tasks }: TasksContainerPro
           variant={filter === 'pending' ? 'default' : 'ghost'}
           size='sm'
           onClick={() => setFilter('pending')}
-          className='h-8 rounded-md px-3 text-sm'
+          className='h-7 rounded-md px-2.5 text-xs font-medium tabular-nums'
+          aria-label={`Show pending tasks (${stats.pending} pending)`}
         >
-          <Clock className='mr-1.5 h-3 w-3' />
+          <Clock className='mr-1 h-3 w-3' aria-hidden='true' />
           Pending ({stats.pending})
         </Button>
         <Button
           variant={filter === 'finished' ? 'default' : 'ghost'}
           size='sm'
           onClick={() => setFilter('finished')}
-          className='h-8 rounded-md px-3 text-sm'
+          className='h-7 rounded-md px-2.5 text-xs font-medium tabular-nums'
+          aria-label={`Show finished tasks (${stats.finished} finished)`}
         >
-          <CheckCircle2 className='mr-1.5 h-3 w-3' />
+          <CheckCircle2 className='mr-1 h-3 w-3' aria-hidden='true' />
           Finished ({stats.finished})
         </Button>
       </div>
 
       {filteredTasks.length === 0 ? (
-        <div className='flex flex-col items-center justify-center py-12 text-center'>
-          <div className='bg-muted/50 mb-4 rounded-xl p-4'>
-            <Plus className='text-muted-foreground mx-auto h-8 w-8' />
+        <div className='flex flex-col items-center justify-center py-16 text-center'>
+          <div className='bg-muted/30 mb-4 rounded-xl p-3'>
+            <Plus className='text-muted-foreground h-8 w-8' aria-hidden='true' />
           </div>
-          <h3 className='mb-2 text-base font-medium'>
+          <h3 className='mb-2 text-lg font-medium'>
             {filter === 'all' ? 'No tasks yet' : `No ${filter} tasks`}
           </h3>
-          <p className='text-muted-foreground mb-6 max-w-xs text-sm'>
+          <p className='text-muted-foreground mb-6 max-w-xs text-sm text-balance'>
             {filter === 'all'
-              ? 'Create your first task to get started'
+              ? 'Create your first task to get started organizing your work'
               : `No ${filter} tasks at the moment`}
           </p>
           {filter === 'all' && (
@@ -102,7 +108,7 @@ const TasksContainer = memo(function TasksContainer({ tasks }: TasksContainerPro
           )}
         </div>
       ) : (
-        <div className='space-y-3'>
+        <div className='space-y-2'>
           {filteredTasks.map(task => (
             <motion.div
               key={task.id}

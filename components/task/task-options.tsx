@@ -20,20 +20,22 @@ export default function TaskOptions({ id, status }: { id: number; status: Status
     })
   }
 
+  const isDeleted = status === statusEnum.DELETED
+
   return (
     <Button
       variant='ghost'
       size='sm'
-      className='hover:bg-destructive/10 hover:text-destructive h-8 w-8 p-0'
+      className='hover:bg-destructive/10 hover:text-destructive h-7 w-7 p-0 transition-all duration-200'
       disabled={isPending}
-      onClick={() =>
-        handleStatusChange(status === statusEnum.DELETED ? statusEnum.PENDING : statusEnum.DELETED)
-      }
+      onClick={() => handleStatusChange(isDeleted ? statusEnum.PENDING : statusEnum.DELETED)}
+      aria-label={isDeleted ? 'Restore task' : 'Delete task'}
+      title={isDeleted ? 'Restore task' : 'Delete task'}
     >
-      {status === statusEnum.DELETED ? (
-        <RotateCcw className='h-4 w-4' />
+      {isDeleted ? (
+        <RotateCcw className='h-3.5 w-3.5' aria-hidden='true' />
       ) : (
-        <Trash2 className='h-4 w-4' />
+        <Trash2 className='h-3.5 w-3.5' aria-hidden='true' />
       )}
     </Button>
   )

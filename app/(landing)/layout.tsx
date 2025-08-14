@@ -13,7 +13,7 @@ export default async function LandingLayout({ children }: Readonly<{ children: R
   return (
     <div>
       <Navbar />
-      <main className='container pt-28'>{children}</main>
+      <main>{children}</main>
     </div>
   )
 }

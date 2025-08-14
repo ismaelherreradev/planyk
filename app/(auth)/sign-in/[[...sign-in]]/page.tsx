@@ -26,7 +26,7 @@ export default function SignInPage() {
           {isGlobalLoading => (
             <>
               <SignIn.Step name='start'>
-                <Card className='w-full border-none sm:max-w-md'>
+                <Card className='w-full border-none sm:w-[600px]'>
                   <CardHeader className='space-y-4 text-center'>
                     <CardTitle className='text-2xl font-semibold'>
                       Welcome to {SiteConfig.title}
@@ -118,7 +118,7 @@ export default function SignInPage() {
               </SignIn.Step>
 
               <SignIn.Step name='choose-strategy'>
-                <Card className='w-full sm:w-96'>
+                <Card className='w-full sm:w-[600px]'>
                   <CardHeader>
                     <CardTitle>Use another method</CardTitle>
                     <CardDescription>
@@ -159,7 +159,7 @@ export default function SignInPage() {
 
               <SignIn.Step name='verifications'>
                 <SignIn.Strategy name='password'>
-                  <Card className='w-full sm:w-96'>
+                  <Card className='w-full sm:w-[600px]'>
                     <CardHeader>
                       <CardTitle>Check your email</CardTitle>
                       <CardDescription>
@@ -206,7 +206,7 @@ export default function SignInPage() {
                 </SignIn.Strategy>
 
                 <SignIn.Strategy name='email_code'>
-                  <Card className='w-full sm:w-96'>
+                  <Card className='w-full sm:w-[600px]'>
                     <CardHeader>
                       <CardTitle>Check your email</CardTitle>
                       <CardDescription>

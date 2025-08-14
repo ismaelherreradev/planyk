@@ -27,7 +27,7 @@ export default function SignUpPage() {
           {isGlobalLoading => (
             <>
               <SignUp.Step name='start'>
-                <Card className='w-full border-none sm:max-w-md'>
+                <Card className='w-full border-none sm:w-[600px]'>
                   <CardHeader className='space-y-4 text-center'>
                     <CardTitle className='text-2xl font-extrabold'>
                       Start your journey here
@@ -127,7 +127,7 @@ export default function SignUpPage() {
               </SignUp.Step>
 
               <SignUp.Step name='continue'>
-                <Card className='w-full sm:w-96'>
+                <Card className='w-full sm:w-[600px]'>
                   <CardHeader>
                     <CardTitle>Continue registration</CardTitle>
                   </CardHeader>
@@ -164,7 +164,7 @@ export default function SignUpPage() {
 
               <SignUp.Step name='verifications'>
                 <SignUp.Strategy name='email_code'>
-                  <Card className='w-full sm:w-96'>
+                  <Card className='w-full sm:w-[600px]'>
                     <CardHeader>
                       <CardTitle>Verify your email</CardTitle>
                       <CardDescription>

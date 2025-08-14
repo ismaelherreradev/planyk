@@ -93,13 +93,13 @@ export default function CreateTaskDialog({ variant = 'button', className }: Crea
 
   const TaskForm = () => (
     <form onSubmit={handleSubmit} className='space-y-4'>
-      <div className='space-y-3'>
+      <div className='space-y-2'>
         <div>
           <Input
             placeholder={currentList ? `Add task to ${currentList.title}` : 'Enter task title...'}
             value={title}
             onChange={e => setTitle(e.target.value)}
-            className={cn('h-10', state?.errors?.title && 'border-red-500')}
+            className={cn('h-9 text-sm', state?.errors?.title && 'border-red-500')}
             autoFocus
             required
           />
@@ -110,7 +110,7 @@ export default function CreateTaskDialog({ variant = 'button', className }: Crea
 
         {showListSelector && (
           <Select value={selectedListId} onValueChange={setSelectedListId} required>
-            <SelectTrigger className={cn('h-10', state?.errors?.listId && 'border-red-500')}>
+            <SelectTrigger className={cn('h-9 text-sm', state?.errors?.listId && 'border-red-500')}>
               <SelectValue placeholder='Choose a list...' />
             </SelectTrigger>
             <SelectContent>
@@ -120,10 +120,10 @@ export default function CreateTaskDialog({ variant = 'button', className }: Crea
                   <SelectItem key={list.id} value={list.id.toString()}>
                     <div className='flex items-center gap-2'>
                       {list.listType === 'emoji' ? (
-                        <span className='text-sm'>{list.emoji}</span>
+                        <span className='text-xs'>{list.emoji}</span>
                       ) : (
                         <div
-                          className='h-3 w-3 rounded-full'
+                          className='h-2.5 w-2.5 rounded-full'
                           style={{ backgroundColor: list.color }}
                         />
                       )}
@@ -141,12 +141,12 @@ export default function CreateTaskDialog({ variant = 'button', className }: Crea
             <Button
               variant='outline'
               className={cn(
-                'h-10 w-full justify-start text-left font-normal',
+                'h-9 w-full justify-start text-left text-sm font-normal',
                 !selectedDate && 'text-muted-foreground'
               )}
               type='button'
             >
-              <CalendarIcon className='mr-2 h-4 w-4' />
+              <CalendarIcon className='mr-2 h-3.5 w-3.5' />
               {selectedDate ? selectedDate.toLocaleDateString() : 'Pick a date'}
             </Button>
           </PopoverTrigger>
@@ -161,30 +161,36 @@ export default function CreateTaskDialog({ variant = 'button', className }: Crea
         </Popover>
 
         {selectedList && (
-          <div className='bg-muted/50 flex items-center gap-2 rounded p-2 text-xs'>
+          <div className='bg-muted/30 border-border/60 flex items-center gap-2 rounded-lg border p-2 text-xs'>
             <span className='text-muted-foreground'>Adding to:</span>
-            <Badge variant='secondary' className='text-xs'>
+            <Badge variant='secondary' className='h-4 px-1.5 text-xs font-medium'>
               {selectedList.title}
             </Badge>
           </div>
         )}
 
         {state?.message && !state?.success && (
-          <div className='rounded border border-red-200 bg-red-50 p-2'>
+          <div className='rounded-lg border border-red-200/60 bg-red-50/60 p-2 backdrop-blur-sm'>
             <p className='text-xs text-red-600'>{state.message}</p>
           </div>
         )}
       </div>
 
-      <div className='flex gap-2 pt-2'>
+      <div className='flex gap-2 pt-1'>
         {variant === 'button' && (
-          <Button type='button' variant='outline' className='flex-1' onClick={() => setOpen(false)}>
+          <Button
+            type='button'
+            variant='outline'
+            size='sm'
+            className='h-9 flex-1'
+            onClick={() => setOpen(false)}
+          >
             Cancel
           </Button>
         )}
         <Button
           type='submit'
-          className={variant === 'button' ? 'flex-1' : 'w-full'}
+          className={cn(variant === 'button' ? 'flex-1' : 'w-full', 'h-9')}
           disabled={
             isPending || isTransitionPending || !title.trim() || (!selectedListId && !currentList)
           }
@@ -192,12 +198,12 @@ export default function CreateTaskDialog({ variant = 'button', className }: Crea
         >
           {isPending || isTransitionPending ? (
             <>
-              <div className='mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent' />
+              <div className='mr-2 h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent' />
               Creating...
             </>
           ) : (
             <>
-              <Plus className='mr-2 h-4 w-4' />
+              <Plus className='mr-2 h-3.5 w-3.5' />
               Add Task
             </>
           )}
@@ -217,8 +223,8 @@ export default function CreateTaskDialog({ variant = 'button', className }: Crea
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size='sm' className={cn('h-9', className)}>
-          <Plus size={16} className='mr-2' />
+        <Button size='sm' className={cn('h-9 px-3', className)}>
+          <Plus size={14} className='mr-1.5' />
           Add Task
         </Button>
       </DialogTrigger>

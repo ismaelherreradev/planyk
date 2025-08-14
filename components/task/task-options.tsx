@@ -1,11 +1,11 @@
 'use client'
 
 import { useTransition } from 'react'
+import { updateTaskStatus } from '@/actions'
 import { statusEnum, type Status } from '@/db/schema'
 import { RotateCcw, Trash2 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { updateTaskStatus } from '@/app/(planyk)/_actions'
 
 export default function TaskOptions({ id, status }: { id: number; status: Status }) {
   const [isPending, startTransition] = useTransition()

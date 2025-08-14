@@ -1,8 +1,8 @@
 import { Suspense } from 'react'
 import { getTasksByListIdAndStatus } from '@/db/query'
 
-import TasksContainer from '../_components/task-container'
-import TaskSkeleton from '../_components/task-skeleton'
+import TasksContainer from '@/components/task/task-container'
+import TaskSkeleton from '@/components/task/task-skeleton'
 
 export default async function FinishedTasks({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params

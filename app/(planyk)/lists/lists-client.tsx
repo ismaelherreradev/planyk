@@ -8,8 +8,7 @@ import { Paths } from '@/config/site'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-
-import CreateList from '../_components/create-list'
+import CreateList from '@/components/create-list'
 
 interface _List {
   id: number

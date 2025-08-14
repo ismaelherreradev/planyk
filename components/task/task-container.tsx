@@ -7,8 +7,8 @@ import { CheckCircle2, Clock, Plus } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import CreateTask from '@/components/create-task'
 
-import CreateTask from '../../../_components/create-task'
 import TaskItem from './task-item'
 
 interface TasksContainerProps {

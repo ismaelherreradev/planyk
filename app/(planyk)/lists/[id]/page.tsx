@@ -1,12 +1,12 @@
-import { Suspense } from "react";
-import { getTasksByListId } from "@/db/query";
+import { Suspense } from 'react'
+import { getTasksByListId } from '@/db/query'
 
-import TasksContainer from "./_components/task-container";
-import TaskSkeleton from "./_components/task-skeleton";
+import TasksContainer from '@/components/task/task-container'
+import TaskSkeleton from '@/components/task/task-skeleton'
 
 export default async function ListIdPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  const tasks = await getTasksByListId(Number(id));
+  const { id } = await params
+  const tasks = await getTasksByListId(Number(id))
 
   return (
     <>
@@ -14,5 +14,5 @@ export default async function ListIdPage({ params }: { params: Promise<{ id: str
         <TasksContainer tasks={tasks!} />
       </Suspense>
     </>
-  );
+  )
 }

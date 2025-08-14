@@ -1,12 +1,12 @@
 'use client'
 
 import { memo, useState, useTransition } from 'react'
+import { updateTaskStatus } from '@/actions'
 import { statusEnum, type SelectTask } from '@/db/schema'
 import { CalendarIcon } from 'lucide-react'
 
 import { cn, formatDateToLocal } from '@/lib/utils'
 import { Checkbox } from '@/components/ui/checkbox'
-import { updateTaskStatus } from '@/app/(planyk)/_actions'
 
 import TaskOptions from './task-options'
 

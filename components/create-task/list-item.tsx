@@ -1,8 +1,7 @@
 import type { SelectList } from '@/db/schema'
 
 import { SelectItem } from '@/components/ui/select'
-
-import { listColors, type ListColor } from '../create-list/color-button'
+import { listColors, type ListColor } from '@/components/create-list/color-button'
 
 interface ListItemProps {
   list: SelectList

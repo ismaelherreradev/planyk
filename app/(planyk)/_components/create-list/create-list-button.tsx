@@ -1,18 +1,13 @@
-import { forwardRef, type Ref } from 'react'
+import { forwardRef, type Ref } from "react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import CreateListDialog from "./create-list-dialog";
 
-import CreateListForm from '.'
+const CreateListButton = forwardRef((props, _ref: Ref<HTMLButtonElement>) => {
+  return <CreateListDialog {...props} />;
+});
 
-const CreateListButton = forwardRef((props, ref: Ref<HTMLButtonElement>) => {
-  return (
-    <button ref={ref} {...props}>
-      <CreateListForm />
-    </button>
-  )
-})
-
-CreateListButton.displayName = 'CreateListButton'
+CreateListButton.displayName = "CreateListButton";
 
 function CreateListTooltip() {
   return (
@@ -22,9 +17,9 @@ function CreateListTooltip() {
           <CreateListButton />
         </TooltipTrigger>
         <TooltipContent
-          className='mr-7 rounded-3xl'
-          side={'bottom'}
-          align={'center'}
+          className="mr-7 rounded-xl"
+          side={"bottom"}
+          align={"center"}
           alignOffset={100}
           avoidCollisions={false}
         >
@@ -32,7 +27,7 @@ function CreateListTooltip() {
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
-  )
+  );
 }
 
-export { CreateListButton, CreateListTooltip as CreateListButtonWithTooltip }
+export { CreateListButton, CreateListTooltip as CreateListButtonWithTooltip };

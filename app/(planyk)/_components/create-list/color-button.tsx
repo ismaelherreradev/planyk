@@ -1,37 +1,37 @@
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export const listColors = {
-  red: 'bg-red-500',
-  orange: 'bg-orange-500',
-  yellow: 'bg-yellow-500',
-  green: 'bg-green-500',
-  teal: 'bg-teal-500',
-  blue: 'bg-blue-500',
-  indigo: 'bg-indigo-500',
-  purple: 'bg-purple-500',
-} as const
+  red: "#ef4444",
+  orange: "#f97316",
+  yellow: "#eab308",
+  green: "#22c55e",
+  teal: "#14b8a6",
+  blue: "#3b82f6",
+  indigo: "#6366f1",
+  purple: "#a855f7",
+} as const;
 
-export type ListColor = keyof typeof listColors
+export type ListColor = keyof typeof listColors;
 
 export interface ColorButtonProps {
-  colorKey: ListColor
-  colorValue: string
-  isSelected: boolean
-  onClick: (color: ListColor) => void
+  colorKey: ListColor;
+  colorValue: string;
+  isSelected: boolean;
+  onClick: (color: ListColor) => void;
 }
 
 export function ColorButton({ colorKey, colorValue, isSelected, onClick }: ColorButtonProps) {
   return (
     <Button
-      key={colorKey}
+      variant="ghost"
+      size="sm"
       onClick={() => onClick(colorKey)}
       className={cn(
-        'h-5 w-5 rounded-full p-0',
-        `hover:${colorValue}`,
-        isSelected ? 'border-2 border-gray-500/50' : '',
-        colorValue
+        "h-6 w-6 rounded-full p-0 hover:scale-110 transition-transform",
+        isSelected ? "ring-2 ring-foreground ring-offset-2" : "",
       )}
+      style={{ backgroundColor: colorValue }}
     />
-  )
+  );
 }

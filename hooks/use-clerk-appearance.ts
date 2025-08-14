@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { dark, experimental__simple } from '@clerk/themes'
+import { dark } from '@clerk/themes'
 import { useTheme } from 'next-themes'
 
 export function useClerkAppearance() {
@@ -7,7 +7,7 @@ export function useClerkAppearance() {
 
   return useMemo(() => {
     return {
-      baseTheme: theme === 'dark' ? dark : experimental__simple,
+      baseTheme: theme === 'dark' ? dark : undefined,
     }
   }, [theme])
 }

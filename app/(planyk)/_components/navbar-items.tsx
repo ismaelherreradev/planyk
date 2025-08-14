@@ -14,7 +14,12 @@ export function UserClerkButton() {
         <Skeleton className='h-8 w-8 rounded-full' />
       </ClerkLoading>
       <ClerkLoaded>
-        <UserButton appearance={appearance} />
+        <UserButton
+          appearance={appearance}
+          showName={false}
+          userProfileMode='navigation'
+          userProfileUrl='/user-profile'
+        />
       </ClerkLoaded>
     </>
   )

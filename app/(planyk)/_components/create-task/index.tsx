@@ -1,9 +1,12 @@
-import { getLists } from '@/db/query'
+"use client";
 
-import CreateTaskForm from './create-task-form'
+import CreateTaskDialog from "./create-task-dialog";
 
-export default async function CreateTask() {
-  const lists = await getLists()
+interface CreateTaskProps {
+  variant?: "button" | "inline";
+  className?: string;
+}
 
-  return <CreateTaskForm lists={lists!} />
+export default function CreateTask({ variant = "button", className }: CreateTaskProps) {
+  return <CreateTaskDialog variant={variant} className={className} />;
 }

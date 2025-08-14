@@ -1,38 +1,62 @@
-'use client'
+"use client";
 
-import { ReloadIcon } from '@radix-ui/react-icons'
-import { TrashIcon } from 'lucide-react'
-import { useServerAction } from 'zsa-react'
+import { useActionState, useEffect, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { deleteList } from "@/app/(planyk)/_actions";
+import { Button } from "@/components/ui/button";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { AlertTriangle, Trash2 } from "lucide-react";
 
-import { Button } from '@/components/ui/button'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { deleteList } from '@/app/(planyk)/_actions'
+const initialState = {
+  message: "",
+};
 
 export default function DeleteList({ id }: { id: number }) {
-  const { execute, isPending } = useServerAction(deleteList)
+  const router = useRouter();
+  const [state, formAction, isPending] = useActionState(deleteList, initialState);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [isTransitionPending, startTransition] = useTransition();
+
+  function handleDelete() {
+    const formData = new FormData();
+    formData.append("id", id.toString());
+    startTransition(() => {
+      formAction(formData);
+    });
+  }
+
+  useEffect(() => {
+    if (state?.success) {
+      router.push("/lists");
+    }
+  }, [state?.success, router]);
+
+  if (!showConfirm) {
+    return (
+      <Button
+        variant="ghost"
+        size="sm"
+        className="h-9 px-3 text-muted-foreground hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
+        onClick={() => setShowConfirm(true)}
+      >
+        <Trash2 className="h-4 w-4" />
+      </Button>
+    );
+  }
+
   return (
-    <TooltipProvider delayDuration={200}>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          {isPending ? (
-            <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />
-          ) : (
-            <Button
-              size={'icon'}
-              className='h-9'
-              variant='destructive'
-              onClick={async () => {
-                await execute(Number(id))
-              }}
-            >
-              <TrashIcon />
-            </Button>
-          )}
-        </TooltipTrigger>
-        <TooltipContent side={'bottom'}>
-          <p>Delete list</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  )
+    <Button
+      variant="destructive"
+      size="sm"
+      className="h-9 px-3"
+      onClick={handleDelete}
+      disabled={isPending || isTransitionPending}
+    >
+      {isPending || isTransitionPending ? (
+        <ReloadIcon className="h-4 w-4 animate-spin" />
+      ) : (
+        <AlertTriangle className="h-4 w-4" />
+      )}
+    </Button>
+  );
 }

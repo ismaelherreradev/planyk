@@ -1,20 +1,22 @@
-import { getListsWithTasks } from '@/db/query'
+import { getLists, getListsWithTasks } from "@/db/query";
 
-import Navbar from '../_components/navbar'
+import Navbar from "../_components/navbar";
+import { ListProvider } from "../contexts/list-context";
 
 export default async function ListLayout({ children }: { children: React.ReactNode }) {
-  const fetchedLists = await getListsWithTasks()
+  const [fetchedLists, allLists] = await Promise.all([getListsWithTasks(), getLists()]);
 
   const lists = fetchedLists?.map(({ tasks, ...list }) => ({
     list,
     tasks,
-  }))
+  }));
 
   return (
-    <main className='container min-h-svh'>
-      <Navbar lists={lists!} />
-
-      {children}
-    </main>
-  )
+    <ListProvider allLists={allLists ?? []}>
+      <div className="min-h-screen bg-gradient-to-br from-background to-muted/20">
+        <Navbar lists={lists!} />
+        <main>{children}</main>
+      </div>
+    </ListProvider>
+  );
 }

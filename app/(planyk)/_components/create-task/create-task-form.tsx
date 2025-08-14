@@ -1,105 +1,203 @@
-'use client'
+"use client";
 
-import { useRef, useState, type ElementRef } from 'react'
-import type { SelectList } from '@/db/schema'
-import { ReloadIcon } from '@radix-ui/react-icons'
-import { Plus } from 'lucide-react'
-import { useServerAction } from 'zsa-react'
+import { useActionState, useCallback, useEffect, useState, useTransition } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { Calendar as CalendarIcon, Plus } from "lucide-react";
 
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
-import { Input } from '@/components/ui/input'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Select, SelectContent, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { createTask } from "../../_actions";
+import { useAllLists, useCurrentList } from "../../contexts/list-context";
 
-import { createTask } from '../../_actions'
-import ListItem from './list-item'
+const initialState = {
+  message: "",
+  errors: {},
+};
 
 interface CreateTaskFormProps {
-  lists: SelectList[]
+  variant?: "popover" | "inline";
+  className?: string;
 }
 
-export default function CreateTaskForm({ lists }: CreateTaskFormProps) {
-  const { isPending, execute, isError, error } = useServerAction(createTask)
-  const closeRef = useRef<ElementRef<'button'>>(null)
+export default function CreateTaskForm({ variant = "popover", className }: CreateTaskFormProps) {
+  const currentList = useCurrentList();
+  const allLists = useAllLists();
 
-  const [formState, setFormState] = useState<{
-    date: Date
-    title: string
-    selectedList: string
-  }>({
-    date: new Date(),
-    title: '',
-    selectedList: '',
-  })
+  const [state, formAction, isPending] = useActionState(createTask, initialState);
+  const [isTransitionPending, startTransition] = useTransition();
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target
-    setFormState({ ...formState, [name]: value })
-  }
+  const [formData, setFormData] = useState({
+    title: "",
+    selectedDate: new Date(),
+    selectedListId: currentList?.id.toString() ?? "",
+  });
 
-  function handleDateChange(date: Date | undefined) {
-    if (date) {
-      setFormState({ ...formState, date })
+  const resetForm = useCallback(() => {
+    setFormData({
+      title: "",
+      selectedDate: new Date(),
+      selectedListId: currentList?.id.toString() ?? "",
+    });
+  }, [currentList]);
+
+  const handleSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      const formDataObj = new FormData(event.currentTarget);
+      startTransition(() => {
+        formAction(formDataObj);
+      });
+    },
+    [formAction, startTransition],
+  );
+
+  useEffect(() => {
+    if (state?.success) {
+      resetForm();
     }
-  }
+  }, [state?.success, resetForm]);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    await execute({
-      listId: formState.selectedList,
-      title: formState.title,
-      dateTime: formState.date,
-    })
+  const showListSelector = !currentList || allLists.length > 1;
+  const selectedList =
+    currentList ?? allLists.find((list) => list.id.toString() === formData.selectedListId);
 
-    if (isError) {
-      return
-    }
+  const TaskForm = () => (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-3">
+        <div className="relative">
+          <Input
+            name="title"
+            placeholder={currentList ? `Add task to ${currentList.title}` : "Task title"}
+            value={formData.title}
+            onChange={(e) => setFormData((prev) => ({ ...prev, title: e.target.value }))}
+            className={cn("pr-4", state?.errors?.title && "border-red-500")}
+            required
+          />
+          {state?.errors?.title && (
+            <p className="text-xs text-red-500 mt-1">{state.errors.title[0]}</p>
+          )}
+        </div>
 
-    setFormState({ date: new Date(), title: '', selectedList: '' })
-    closeRef.current?.click()
-  }
-
-  return (
-    <Popover>
-      <PopoverTrigger ref={closeRef} asChild>
-        <Button size={'sm'} className='rounded-xl border-none'>
-          <Plus size={14} className='mr-1' /> Add new task
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <form onSubmit={handleSubmit} className='flex flex-col items-center space-y-4'>
-          <div className='w-full'>
-            <Input
-              id='title'
-              name='title'
-              value={formState.title}
-              onChange={handleChange}
-              placeholder='Create new task'
-              className={cn(error?.fieldErrors?.title && 'border-red-500')}
-            />
-            {isError && <span className='text-xs text-red-500'>{error.fieldErrors?.title}</span>}
-          </div>
-          <div className='w-full'>
-            <Select onValueChange={value => setFormState({ ...formState, selectedList: value })}>
-              <SelectTrigger>
-                <SelectValue placeholder='No lists' />
-              </SelectTrigger>
-              <SelectContent>
-                {lists.map(list => (
-                  <ListItem key={list.id} list={list} />
+        {showListSelector && (
+          <Select
+            name="listId"
+            value={formData.selectedListId}
+            onValueChange={(value) => setFormData((prev) => ({ ...prev, selectedListId: value }))}
+            required
+          >
+            <SelectTrigger className={cn(state?.errors?.listId && "border-red-500")}>
+              <SelectValue placeholder="Select a list" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Your Lists</SelectLabel>
+                {allLists.map((list) => (
+                  <SelectItem key={list.id} value={list.id.toString()}>
+                    <div className="flex items-center gap-2">
+                      {list.listType === "emoji" ? (
+                        <span>{list.emoji}</span>
+                      ) : (
+                        <div
+                          className="w-3 h-3 rounded-full border"
+                          style={{ backgroundColor: list.color }}
+                        />
+                      )}
+                      <span className="truncate">{list.title}</span>
+                    </div>
+                  </SelectItem>
                 ))}
-              </SelectContent>
-            </Select>
-            {isError && <span className='text-xs text-red-500'>{error.fieldErrors?.listId}</span>}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        )}
+
+        {!showListSelector && currentList && (
+          <input type="hidden" name="listId" value={currentList.id.toString()} />
+        )}
+
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              className={cn(
+                "w-full justify-start text-left font-normal",
+                !formData.selectedDate && "text-muted-foreground",
+              )}
+              type="button"
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {formData.selectedDate ? formData.selectedDate.toLocaleDateString() : "Pick a date"}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0">
+            <Calendar
+              mode="single"
+              selected={formData.selectedDate}
+              onSelect={(date) => date && setFormData((prev) => ({ ...prev, selectedDate: date }))}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+        <input type="hidden" name="dateTime" value={formData.selectedDate.toISOString()} />
+
+        {selectedList && (
+          <div className="flex items-center gap-2 p-2 bg-muted/50 rounded">
+            <span className="text-xs text-muted-foreground">Adding to:</span>
+            <Badge variant="secondary" className="text-xs">
+              {selectedList.title}
+            </Badge>
           </div>
-          <Calendar mode='single' selected={formState.date} onSelect={handleDateChange} />
-          <Button size={'sm'} type='submit' className='w-full'>
-            {isPending ? <ReloadIcon className='mr-2 h-4 w-4 animate-spin' /> : 'Create'}
-          </Button>
-        </form>
-      </PopoverContent>
-    </Popover>
-  )
+        )}
+
+        {state?.message && !state?.success && (
+          <div className="p-2 rounded bg-red-50 border border-red-200">
+            <p className="text-xs text-red-600">{state.message}</p>
+          </div>
+        )}
+      </div>
+
+      <Button
+        type="submit"
+        className="w-full"
+        disabled={
+          isPending || isTransitionPending || !formData.title.trim() || !formData.selectedListId
+        }
+      >
+        {isPending || isTransitionPending ? (
+          <>
+            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            Creating...
+          </>
+        ) : (
+          <>
+            <Plus className="mr-2 h-4 w-4" />
+            Add Task
+          </>
+        )}
+      </Button>
+    </form>
+  );
+
+  if (variant === "inline") {
+    return (
+      <div className={cn("w-full", className)}>
+        <TaskForm />
+      </div>
+    );
+  }
+
+  return <TaskForm />;
 }

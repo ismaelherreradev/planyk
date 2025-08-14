@@ -1,47 +1,48 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next'
 
-import "./globals.css";
+import './globals.css'
 
-import { Inter as FontSans } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider";
-import { SiteConfig } from "@/config/site";
-import { env } from "@/env";
-import { cn } from "@/lib/utils";
-import { ClerkProvider } from "@clerk/nextjs";
+import { Inter as FontSans } from 'next/font/google'
+import { env } from '@/env'
+import { ClerkProvider } from '@clerk/nextjs'
+
+import { SiteConfig } from '@/config/site'
+import { cn } from '@/lib/utils'
+import { ThemeProvider } from '@/components/theme-provider'
 
 const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+  subsets: ['latin'],
+  variable: '--font-sans',
+})
 
 export const metadata: Metadata = {
   title: {
     default: SiteConfig.title,
-    template: "%s | " + SiteConfig.title,
+    template: '%s | ' + SiteConfig.title,
   },
   description: SiteConfig.description,
   icons: [
     {
-      url: "/planyk.svg",
-      href: "/planyk.svg",
+      url: '/planyk.svg',
+      href: '/planyk.svg',
     },
   ],
   openGraph: {
-    images: ["/planyk.png"],
+    images: ['/planyk.png'],
   },
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={cn("min-h-svh bg-background font-sans antialiased", fontSans.variable)}>
+    <html lang='en' suppressHydrationWarning>
+      <body className={cn('bg-background min-h-svh font-sans antialiased', fontSans.variable)}>
         <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
+          attribute='class'
+          defaultTheme='system'
           enableSystem
           disableTransitionOnChange
         >
@@ -51,5 +52,5 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }

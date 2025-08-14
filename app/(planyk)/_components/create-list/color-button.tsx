@@ -1,25 +1,25 @@
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 
 export const listColors = {
-  red: "bg-red-500",
-  orange: "bg-orange-500",
-  yellow: "bg-yellow-500",
-  green: "bg-green-500",
-  teal: "bg-teal-500",
-  blue: "bg-blue-500",
-  indigo: "bg-indigo-500",
-  purple: "bg-purple-500",
-} as const;
+  red: 'bg-red-500',
+  orange: 'bg-orange-500',
+  yellow: 'bg-yellow-500',
+  green: 'bg-green-500',
+  teal: 'bg-teal-500',
+  blue: 'bg-blue-500',
+  indigo: 'bg-indigo-500',
+  purple: 'bg-purple-500',
+} as const
 
-export type ListColor = keyof typeof listColors;
+export type ListColor = keyof typeof listColors
 
-export type ColorButtonProps = {
-  colorKey: ListColor;
-  colorValue: string;
-  isSelected: boolean;
-  onClick: (color: ListColor) => void;
-};
+export interface ColorButtonProps {
+  colorKey: ListColor
+  colorValue: string
+  isSelected: boolean
+  onClick: (color: ListColor) => void
+}
 
 export function ColorButton({ colorKey, colorValue, isSelected, onClick }: ColorButtonProps) {
   return (
@@ -27,11 +27,11 @@ export function ColorButton({ colorKey, colorValue, isSelected, onClick }: Color
       key={colorKey}
       onClick={() => onClick(colorKey)}
       className={cn(
-        "h-5 w-5 p-0 rounded-full",
+        'h-5 w-5 rounded-full p-0',
         `hover:${colorValue}`,
-        isSelected ? "border-2 border-gray-500/50" : "",
-        colorValue,
+        isSelected ? 'border-2 border-gray-500/50' : '',
+        colorValue
       )}
     />
-  );
+  )
 }

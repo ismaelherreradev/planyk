@@ -1,15 +1,15 @@
-import type { SelectList, SelectTask } from "@/db/schema";
+import type { SelectList, SelectTask } from '@/db/schema'
 
-export type ListsWithTasks = {
-  list: SelectList;
-  tasks: SelectTask[];
-};
+export interface ListsWithTasks {
+  list: SelectList
+  tasks: SelectTask[]
+}
 
-export type CreateTaskFormProps = {
-  lists: ListsWithTasks[];
-};
+export interface CreateTaskFormProps {
+  lists: ListsWithTasks[]
+}
 
-export type ListItemProps = {
-  list: ListsWithTasks["list"];
-  tasks: ListsWithTasks["tasks"];
-};
+export interface ListItemProps {
+  list: ListsWithTasks['list']
+  tasks: ListsWithTasks['tasks']
+}

@@ -1,9 +1,9 @@
-import { getLists } from "@/db/query";
+import { getLists } from '@/db/query'
 
-import CreateTaskForm from "./create-task-form";
+import CreateTaskForm from './create-task-form'
 
 export default async function CreateTask() {
-  const lists = await getLists();
+  const lists = await getLists()
 
-  return <CreateTaskForm lists={lists!} />;
+  return <CreateTaskForm lists={lists!} />
 }

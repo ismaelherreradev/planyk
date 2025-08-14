@@ -1,37 +1,38 @@
-"use client";
+'use client'
 
-import { deleteList } from "@/app/(planyk)/_actions";
-import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { ReloadIcon } from "@radix-ui/react-icons";
-import { TrashIcon } from "lucide-react";
-import { useServerAction } from "zsa-react";
+import { ReloadIcon } from '@radix-ui/react-icons'
+import { TrashIcon } from 'lucide-react'
+import { useServerAction } from 'zsa-react'
+
+import { Button } from '@/components/ui/button'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { deleteList } from '@/app/(planyk)/_actions'
 
 export default function DeleteList({ id }: { id: number }) {
-  const { execute, isPending } = useServerAction(deleteList);
+  const { execute, isPending } = useServerAction(deleteList)
   return (
     <TooltipProvider delayDuration={200}>
       <Tooltip>
         <TooltipTrigger asChild>
           {isPending ? (
-            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />
           ) : (
             <Button
-              size={"icon"}
-              className="h-9"
-              variant="destructive"
+              size={'icon'}
+              className='h-9'
+              variant='destructive'
               onClick={async () => {
-                await execute(Number(id));
+                await execute(Number(id))
               }}
             >
               <TrashIcon />
             </Button>
           )}
         </TooltipTrigger>
-        <TooltipContent side={"bottom"}>
+        <TooltipContent side={'bottom'}>
           <p>Delete list</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
-  );
+  )
 }

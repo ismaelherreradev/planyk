@@ -1,25 +1,26 @@
-import Link from "next/link";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { Button } from "@/components/ui/button";
-import { Paths, SiteConfig } from "@/config/site";
+import Link from 'next/link'
+
+import { Paths, SiteConfig } from '@/config/site'
+import { Button } from '@/components/ui/button'
+import { ThemeToggle } from '@/components/theme-toggle'
 
 export async function Navbar() {
   return (
-    <nav className="fixed inset-x-0 flex h-20">
-      <div className="container flex w-full items-center justify-between  gap-4">
-        <h1 className="scroll-m-20 text-3xl md:text-5xl font-semibold tracking-tight">
+    <nav className='fixed inset-x-0 flex h-20'>
+      <div className='container flex w-full items-center justify-between gap-4'>
+        <h1 className='scroll-m-20 text-3xl font-semibold tracking-tight md:text-5xl'>
           {SiteConfig.title}
         </h1>
-        <div className="space-x-4 flex">
-          <Button size="sm" variant="ghost" asChild>
+        <div className='flex space-x-4'>
+          <Button size='sm' variant='ghost' asChild>
             <Link href={Paths.SignInPage}>Sign in</Link>
           </Button>
-          <Button size="sm" asChild>
+          <Button size='sm' asChild>
             <Link href={Paths.SignUpPage}>Get started</Link>
           </Button>
           <ThemeToggle />
         </div>
       </div>
     </nav>
-  );
+  )
 }

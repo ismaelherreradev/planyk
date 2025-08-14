@@ -1,40 +1,40 @@
-"use server";
+'use server'
 
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { db } from "@/db";
-import { lists, listTypesEnum, statusEnum, tasks, type Status } from "@/db/schema";
-import { currentUser } from "@clerk/nextjs/server";
-import { eq } from "drizzle-orm";
-import { z } from "zod";
-import { createServerActionProcedure } from "zsa";
+import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
+import { db } from '@/db'
+import { lists, listTypesEnum, statusEnum, tasks, type Status } from '@/db/schema'
+import { currentUser } from '@clerk/nextjs/server'
+import { eq } from 'drizzle-orm'
+import { z } from 'zod'
+import { createServerActionProcedure } from 'zsa'
 
 const authedProcedure = createServerActionProcedure().handler(async () => {
   try {
-    const user = await currentUser();
+    const user = await currentUser()
 
     if (!user) {
-      redirect("/sign-in");
+      redirect('/sign-in')
     }
 
-    return user;
+    return user
   } catch {
-    throw new Error("User not authenticated");
+    throw new Error('User not authenticated')
   }
-});
+})
 
 export const createList = authedProcedure
   .createServerAction()
   .input(
     z.object({
-      title: z.string().min(3, { message: "Title must be at least 3 characters long." }),
+      title: z.string().min(3, { message: 'Title must be at least 3 characters long.' }),
       color: z.string().min(1),
       emoji: z.string().min(1),
       listType: z.nativeEnum(listTypesEnum),
-    }),
+    })
   )
   .handler(async ({ ctx, input }) => {
-    const { title, color, emoji, listType } = input;
+    const { title, color, emoji, listType } = input
 
     const [list] = await db
       .insert(lists)
@@ -45,49 +45,49 @@ export const createList = authedProcedure
         color,
         emoji,
       })
-      .returning();
+      .returning()
 
-    revalidatePath("/lists");
-    redirect(`/lists/${list.id}`);
-    return list.id;
-  });
+    revalidatePath('/lists')
+    redirect(`/lists/${list.id}`)
+    return list.id
+  })
 
 export const deleteList = authedProcedure
   .createServerAction()
   .input(z.number())
   .handler(async ({ input }) => {
-    const id = input;
+    const id = input
 
-    await db.delete(tasks).where(eq(tasks.listId, id));
-    await db.delete(lists).where(eq(lists.id, id));
+    await db.delete(tasks).where(eq(tasks.listId, id))
+    await db.delete(lists).where(eq(lists.id, id))
 
-    revalidatePath(`/lists/${id}`);
-    redirect("/lists");
-  });
+    revalidatePath(`/lists/${id}`)
+    redirect('/lists')
+  })
 
 export const createTask = authedProcedure
   .createServerAction()
   .input(
     z.object({
-      listId: z.string().min(1, { message: "A list is required." }),
-      title: z.string().min(3, { message: "Title must be at least 3 characters long." }),
+      listId: z.string().min(1, { message: 'A list is required.' }),
+      title: z.string().min(3, { message: 'Title must be at least 3 characters long.' }),
       dateTime: z.date(),
-    }),
+    })
   )
   .handler(async ({ input }) => {
-    const { listId, title, dateTime } = input;
+    const { listId, title, dateTime } = input
     const [task] = await db
       .insert(tasks)
       .values({
         listId: Number(listId),
         title,
-        status: "pending" as Status,
+        status: 'pending' as Status,
         dateTime: new Date(dateTime).toISOString(),
       })
-      .returning();
+      .returning()
 
-    revalidatePath(`/lists/${task.id}`);
-  });
+    revalidatePath(`/lists/${task.id}`)
+  })
 
 export const updateStateTask = authedProcedure
   .createServerAction()
@@ -95,16 +95,16 @@ export const updateStateTask = authedProcedure
     z.object({
       id: z.number(),
       status: z.nativeEnum(statusEnum),
-    }),
+    })
   )
   .handler(async ({ input }) => {
-    const { id, status } = input;
+    const { id, status } = input
     await db
       .update(tasks)
       .set({
         status,
       })
-      .where(eq(tasks.id, id));
+      .where(eq(tasks.id, id))
 
-    revalidatePath(`/lists/${id}`);
-  });
+    revalidatePath(`/lists/${id}`)
+  })

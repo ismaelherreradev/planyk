@@ -1,21 +1,21 @@
-import { redirect } from "next/navigation";
-import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from 'next/navigation'
+import { currentUser } from '@clerk/nextjs/server'
 
-import Welcome from "../_components/welcome";
+import Welcome from '../_components/welcome'
 
 export default async function PlanykPage() {
-  const user = await currentUser();
+  const user = await currentUser()
 
   if (!user) {
-    redirect("/sign-in");
+    redirect('/sign-in')
   }
 
   return (
-    <div className="grid place-content-center mt-20">
+    <div className='mt-20 grid place-content-center'>
       <Welcome user={user} />
-      <p className="text-muted-foreground  text-xl mt-10">
+      <p className='text-muted-foreground mt-10 text-xl'>
         You have no plans for today. Select a list! 🎉
       </p>
     </div>
-  );
+  )
 }

@@ -1,20 +1,21 @@
-"use client";
+'use client'
 
-import { Skeleton } from "@/components/ui/skeleton";
-import { useClerkAppearance } from "@/hooks/use-clerk-appearance";
-import { ClerkLoaded, ClerkLoading, UserButton } from "@clerk/nextjs";
+import { ClerkLoaded, ClerkLoading, UserButton } from '@clerk/nextjs'
+
+import { useClerkAppearance } from '@/hooks/use-clerk-appearance'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export function UserClerkButton() {
-  const appearance = useClerkAppearance();
+  const appearance = useClerkAppearance()
 
   return (
     <>
       <ClerkLoading>
-        <Skeleton className="w-8 h-8 rounded-full " />
+        <Skeleton className='h-8 w-8 rounded-full' />
       </ClerkLoading>
       <ClerkLoaded>
         <UserButton appearance={appearance} />
       </ClerkLoaded>
     </>
-  );
+  )
 }

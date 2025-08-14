@@ -1,25 +1,26 @@
-import Link from "next/link";
-import CreateTask from "@/app/(planyk)/_components/create-task";
-import { Button } from "@/components/ui/button";
+import Link from 'next/link'
+import { FilterIcon } from 'lucide-react'
+import { useServerAction } from 'zsa-react'
+
+import { Paths } from '@/config/site'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Paths } from "@/config/site";
-import { FilterIcon } from "lucide-react";
-import { useServerAction } from "zsa-react";
+} from '@/components/ui/dropdown-menu'
+import CreateTask from '@/app/(planyk)/_components/create-task'
 
-import DeleteList from "./delete-lits";
+import DeleteList from './delete-lits'
 
 export default function TaskActions({ id }: { id: number }) {
   return (
-    <div className="flex justify-end items-center space-x-3 my-6">
+    <div className='my-6 flex items-center justify-end space-x-3'>
       <div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button size={"icon"} variant="ghost">
+            <Button size={'icon'} variant='ghost'>
               <FilterIcon />
             </Button>
           </DropdownMenuTrigger>
@@ -39,5 +40,5 @@ export default function TaskActions({ id }: { id: number }) {
       <CreateTask />
       <DeleteList id={id} />
     </div>
-  );
+  )
 }

@@ -1,23 +1,24 @@
-import Image from "next/image";
-import { SelectItem } from "@/components/ui/select";
-import type { SelectList } from "@/db/schema";
-import { cn } from "@/lib/utils";
+import Image from 'next/image'
+import type { SelectList } from '@/db/schema'
 
-import { ListColor, listColors } from "../create-list/color-button";
+import { cn } from '@/lib/utils'
+import { SelectItem } from '@/components/ui/select'
 
-type ListItemProps = {
-  list: SelectList;
-};
+import { listColors, type ListColor } from '../create-list/color-button'
+
+interface ListItemProps {
+  list: SelectList
+}
 
 export default function ListItem({ list }: ListItemProps) {
   return (
     <SelectItem key={list.id} value={String(list.id)}>
-      <div className="flex items-center space-x-2">
-        {list.listType === "color" ? (
+      <div className='flex items-center space-x-2'>
+        {list.listType === 'color' ? (
           <div
             className={cn(
-              "h-5 w-5 rounded-full border-2 border-gray-500/50",
-              listColors[list.color as ListColor],
+              'h-5 w-5 rounded-full border-2 border-gray-500/50',
+              listColors[list.color as ListColor]
             )}
           />
         ) : (
@@ -26,5 +27,5 @@ export default function ListItem({ list }: ListItemProps) {
         <span>{list.title}</span>
       </div>
     </SelectItem>
-  );
+  )
 }

@@ -26,7 +26,7 @@ export default function SignInPage() {
           {isGlobalLoading => (
             <>
               <SignIn.Step name='start'>
-                <Card className='w-full border-none sm:w-[600px]'>
+                <Card className='w-full border-none sm:w-[400px]'>
                   <CardHeader className='space-y-4 text-center'>
                     <CardTitle className='text-2xl font-semibold'>
                       Welcome to {SiteConfig.title}

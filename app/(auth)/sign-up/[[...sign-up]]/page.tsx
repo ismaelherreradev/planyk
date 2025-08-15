@@ -27,7 +27,7 @@ export default function SignUpPage() {
           {isGlobalLoading => (
             <>
               <SignUp.Step name='start'>
-                <Card className='w-full border-none sm:w-[600px]'>
+                <Card className='w-full border-none sm:w-[400px]'>
                   <CardHeader className='space-y-4 text-center'>
                     <CardTitle className='text-2xl font-extrabold'>
                       Start your journey here

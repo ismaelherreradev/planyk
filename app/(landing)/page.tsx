@@ -38,7 +38,7 @@ export default function LandingPage() {
       <section className='flex flex-1 items-center justify-center py-20'>
         <div className='container max-w-4xl text-center'>
           <div className='mb-8 flex justify-center'>
-            <div className='from-primary/10 to-primary/5 rounded-2xl bg-gradient-to-br p-6'>
+            <div className='from-primary/10 to-primary/5 mt-40 rounded-2xl bg-gradient-to-br p-6'>
               <Image
                 src='/planyk.svg'
                 alt='Planyk logo - Modern task management'

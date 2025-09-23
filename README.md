@@ -116,5 +116,4 @@
 4. Add them to your `.env.local` file
 
 
-  <strong>Made with ❤️ by the Planyk team</strong>
 </p>

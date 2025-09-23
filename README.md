@@ -2,10 +2,6 @@
 
 > A modern, clean, and powerful task management application built with Next.js 15
 
-Planyk is a feature-rich todo application that helps you organize your work and life efficiently. With its intuitive interface, smart organization features, and real-time synchronization, staying productive has never been easier.
-
-![Planyk Demo](https://via.placeholder.com/800x400/6366f1/ffffff?text=Planyk+Task+Management)
-
 ## ✨ Features
 
 ### 🎯 **Core Functionality**
@@ -102,42 +98,6 @@ Planyk is a feature-rich todo application that helps you organize your work and 
 6. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-## 📝 Available Scripts
-
-| Command | Description |
-|---------|-------------|
-| `bun run dev` | Start development server |
-| `bun run build` | Build for production |
-| `bun run start` | Start production server |
-| `bun run lint` | Run ESLint |
-| `bun run lint:fix` | Fix ESLint errors |
-| `bun run format` | Format code with Prettier |
-| `bun run format:check` | Check code formatting |
-| `bun run db:generate` | Generate database migrations |
-| `bun run db:migrate` | Run database migrations |
-| `bun run db:push` | Push schema changes to database |
-| `bun run db:studio` | Open Drizzle Studio |
-
-## 🗂️ Project Structure
-
-```
-planyk/
-├── app/                    # Next.js App Router
-│   ├── (auth)/            # Authentication pages
-│   ├── (landing)/         # Landing page
-│   ├── (planyk)/          # Main application
-│   ├── globals.css        # Global styles
-│   └── layout.tsx         # Root layout
-├── components/            # Reusable UI components
-│   └── ui/               # shadcn/ui components
-├── config/               # Configuration files
-├── contexts/             # React contexts
-├── db/                   # Database schema and utilities
-├── hooks/                # Custom React hooks
-├── lib/                  # Utility functions
-├── types/                # TypeScript type definitions
-└── public/               # Static assets
-```
 
 ## 🔧 Configuration
 
@@ -155,87 +115,6 @@ planyk/
 3. Get your publishable key and secret key
 4. Add them to your `.env.local` file
 
-## 🎨 Customization
 
-### Themes
-Planyk supports both light and dark themes. The theme preference is automatically saved and synced across devices.
-
-### Colors & Styling
-- Modify `app/globals.css` for global styles
-- Update `tailwind.config.js` for theme customization
-- Components use CSS variables for consistent theming
-
-### Database Schema
-- Schema is defined in `db/schema.ts`
-- Use Drizzle Kit to manage migrations
-- Run `bun run db:studio` to explore your data
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Add environment variables in Vercel dashboard
-4. Deploy automatically with each push
-
-### Other Platforms
-
-Planyk can be deployed to any platform that supports Next.js:
-- Netlify
-- Railway
-- Docker
-- Self-hosted
-
-## 📚 API Reference
-
-### Database Models
-
-#### Lists
-- `id` - Unique identifier
-- `userId` - Owner of the list
-- `title` - List name
-- `listType` - Color or emoji type
-- `color` - Color value
-- `emoji` - Emoji character
-
-#### Tasks
-- `id` - Unique identifier
-- `listId` - Parent list
-- `title` - Task description
-- `status` - pending | finished | deleted
-- `dateTime` - Due date/time
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [Next.js](https://nextjs.org) for the amazing framework
-- [Clerk](https://clerk.com) for seamless authentication
-- [Turso](https://turso.tech) for the lightning-fast database
-- [shadcn/ui](https://ui.shadcn.com) for beautiful components
-- [Drizzle](https://orm.drizzle.team) for the excellent ORM
-
-## 📞 Support
-
-- 📧 Email: support@planyk.com
-- 💬 Discord: [Join our community](https://discord.gg/planyk)
-- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/planyk/issues)
-
----
-
-<p align="center">
   <strong>Made with ❤️ by the Planyk team</strong>
 </p>
